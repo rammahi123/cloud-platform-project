@@ -23,7 +23,7 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = "cloud-platform-cluster"
-  cluster_version = "1.27"
+  cluster_version = "1.34"
 
   vpc_id     = aws_vpc.main.id
   subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
