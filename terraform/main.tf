@@ -1,26 +1,31 @@
+provider "aws" {
+  region = "ap-south-1"
+}
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
 
 resource "aws_subnet" "subnet1" {
-  vpc_id      = aws_vpc.main.id
-  cidr_block  = "10.0.1.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "ap-south-1a"
 }
 
 resource "aws_subnet" "subnet2" {
-  vpc_id      = aws_vpc.main.id
-  cidr_block  = "10.0.2.0/24"
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
   availability_zone = "ap-south-1b"
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id  = aws_vpc.main.id
+  vpc_id = aws_vpc.main.id
 }
 
-
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.0"
+
   cluster_name    = "cloud-platform-cluster"
   cluster_version = "1.27"
 
@@ -31,7 +36,7 @@ module "eks" {
     default = {
       instance_types = ["t2.micro"]
       min_size       = 1
-      max_size       = 2
+      max_size       = 1
       desired_size   = 1
     }
   }
