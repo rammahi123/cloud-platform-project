@@ -23,10 +23,12 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = "cloud-platform-cluster"
-  cluster_version = "1.34"
+  cluster_version = "1.29"
 
   vpc_id     = aws_vpc.main.id
   subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+
+  enable_kms_key = false
 
   eks_managed_node_groups = {
     default = {
@@ -34,6 +36,12 @@ module "eks" {
       min_size       = 1
       max_size       = 1
       desired_size   = 1
+
+      iam_role_additional_policies = {
+        AmazonEKSWorkerNodePolicy          = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+        AmazonEKS_CNI_Policy               = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+        AmazonEC2ContainerRegistryReadOnly = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+      }
     }
   }
 }
