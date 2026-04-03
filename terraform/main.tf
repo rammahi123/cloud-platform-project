@@ -28,7 +28,7 @@ module "eks" {
   vpc_id     = aws_vpc.main.id
   subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
 
-  enable_kms_key = false
+  cluster_encryption_config = {}
 
   eks_managed_node_groups = {
     default = {
